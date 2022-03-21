@@ -1,0 +1,24 @@
+{
+  "name": "lodash",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "knex": "^1.0.4",
+    "lodash": "^4.17.21",
+    "mysql": "^2.18.1",
+    "when": "^3.7.8"
+  },
+  "scripts": {
+    "start": "node main/app.js",
+    "create_database": "node main/mysql_setup/create_database.js",
+    "migrate": "node main/mysql_setup/migrate.js"
+  }
+}
