@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 18,
+    "editor.fontFamily": "Consolas, 'Courier New', monospace, font-weight:600",
+    "editor.autoClosingQuotes": "always",
+    "editor.bracketPairColorization.enabled": true
+}
