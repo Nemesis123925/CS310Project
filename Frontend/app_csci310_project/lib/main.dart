@@ -1,6 +1,7 @@
 import 'package:app_csci310_project/viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:app_csci310_project/pages/login_page.dart';
+import 'package:app_csci310_project/router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
@@ -23,7 +24,9 @@ class USCDoorDrink extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: const Text('USCDoorDrink')),
         body: LoginPage(),
-      )
+      ),
+      onGenerateRoute: AppRouter.generateRoute,
+      initialRoute: '/',
     );
   }
 }

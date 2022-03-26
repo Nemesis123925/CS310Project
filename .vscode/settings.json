@@ -1,8 +1,0 @@
-{
-    "editor.fontSize": 18,
-    "editor.autoClosingQuotes": "always",
-    "editor.bracketPairColorization.enabled": true,
-    "editor.fontFamily": "'Terminal Font for the IBM 8514', 'Terminal Font for the IBM 8514', monospace",
-    "editor.fontLigatures": false ,
-    "editor.fontWeight": "500"
-}

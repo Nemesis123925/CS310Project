@@ -10,7 +10,7 @@ class InputField extends StatefulWidget {
   final InputType type;
   final TextEditingController controller;
 
-  InputField({@required this.text, @required this.controller, @required this.type});
+  const InputField({required this.text, required this.controller, required this.type});
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -29,33 +29,33 @@ class _InputFieldState extends State<InputField> {
         decoration: InputDecoration(
           alignLabelWithHint: true,
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.5, color: Colors.grey[800]),
+              borderSide: const BorderSide(width: 1.5, color: Colors.grey),
               borderRadius: BorderRadius.circular(32.0)
           ),
           border: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.5, color: Colors.grey[800]),
+              borderSide: const BorderSide(width: 1.5, color: Colors.grey),
               borderRadius: BorderRadius.circular(32.0)
           ),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.5, color: Colors.grey[800]),
+              borderSide: const BorderSide(width: 1.5, color: Colors.grey),
               borderRadius: BorderRadius.circular(32.0)
           ),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.5, color: Theme.of(context).errorColor),
               borderRadius: BorderRadius.circular(32.0)
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
           labelText: widget.text,
-          labelStyle: _valid ? Theme.of(context).textTheme.headline5 : Theme.of(context).textTheme.headline5.copyWith(color: Theme.of(context).errorColor),
+          labelStyle: _valid ? Theme.of(context).textTheme.headline5 : Theme.of(context).textTheme.headline5?.copyWith(color: Theme.of(context).errorColor),
         ),
-        style: Theme.of(context).textTheme.headline5.copyWith(height: 1.5),
+        style: Theme.of(context).textTheme.headline5?.copyWith(height: 1.5),
         obscureText: widget.type == InputType.Password ? true : false,
-        keyboardType: widget.type == InputType.Username ? TextInputType.username: TextInputType.username,
+        keyboardType: widget.type == InputType.Username ? TextInputType.text: TextInputType.text,
         cursorColor: Colors.black,
         cursorWidth: 2.0,
         showCursor: true,
         validator: (value) {
-          if (value.isEmpty) {
+          if (value == null) {
             setState(() {
               _valid = false;
             });

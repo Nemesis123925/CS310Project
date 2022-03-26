@@ -1,27 +1,44 @@
+import 'package:app_csci310_project/models/login_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:app_csci310_project/components/buttons.dart';
 import 'package:app_csci310_project/components/input_field.dart';
 import 'package:app_csci310_project/models/user.dart';
-// import 'package:swampy/services/firebase_auth_service.dart';
 
 
-class LoginPage extends StatelessWidget {
+
+class LoginPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
-  final Map<String, TextEditingController> _controllers = {
-    'username': TextEditingController(),
-    'password': TextEditingController()
-  };
 
   LoginPage({Key? key}) : super(key: key);
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isApiCallProcess = false;
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  LoginRequestModel loginRequestModel;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  void initState() {
+    super.initState();
+    loginRequestModel = new LoginRequestModel();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _uiSetup(context),
+      inAsyncCall: isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         key: _scaffoldKey,
         appBar: AppBar (
           title: const Text("Login")
@@ -35,89 +52,56 @@ class LoginPage extends StatelessWidget {
                     maxWidth: 400,
                   ),
                   child: Form(
-                    key: _loginKey,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+                    key: globalFormKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          InputField(
-                              text: 'Username',
-                              controller: _controllers['username'],
-                              type: InputType.Username
-                          ),
-                          InputField(
-                              text: 'Password',
-                              controller: _controllers['password'],
-                              type: InputType.Password
-                          ),
-                          SizedBox(height: 24.0,),
+                        children: <Widget> [
+                          const SizedBox(height: 19),
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            onSaved: (input) => loginRequestModel.username =
+                              input!),
+                          const SizedBox(height: 19),
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            onSaved: (input) => loginRequestModel.password =
+                              input!),
+                  //
                           PrimaryButton(
                               title: 'LOG IN',
-                              onPressed: () async {
-                                if (_loginKey.currentState.validate()) {
-                                  try {
-                                    _makeGetRequest();
-                                    // await context.read<FirebaseAuthService>().signInWithEmailAndPassword(_controllers['email'].text, _controllers['password'].text);
-                                  } catch (e) {
-                                    print(e.toString());
-                                    String message = '';
-                                    if (e.toString() ==
-                                        '[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.') {
-                                      message =
-                                      "Sorry, we couldn't find that user.";
-                                    } else if (e.toString() ==
-                                        '[firebase_auth/wrong-password] The password is invalid or the user does not have a password.') {
-                                      message =
-                                      "Sorry, that's not the right password.";
-                                    } else if (e.toString() ==
-                                        '[firebase_auth/too-many-requests] Too many unsuccessful login attempts. Please try again later.') {
-                                      message =
-                                      'Too many unsuccessful login attempts. Please try again later.';
-                                    } else if (e.toString() ==
-                                        '[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.') {
-                                      message =
-                                      "Oops! Looks like you're offline!";
-                                    } else {
-                                      message = 'Sorry, an error has occurred.';
-                                    }
-                                    _scaffoldKey.currentState.showSnackBar(
-                                        SnackBar(
-                                            backgroundColor: Colors.grey[800],
-                                            content: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 12.0, bottom: 18.0),
-                                              child: Text(message, style: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .headline4
-                                                  .copyWith(
-                                                  color: Colors.white)),
-                                            )
-                                        )
-                                    );
-                                  }
-                                }
-                              }
-                              )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
-        )
-    );
-  }
+                              onPressed: () {
+                                if (validateAndSave()) {
+                                  print(loginRequestModel.toJson());
 
-  _makeGetRequest() async {
-    final url = Uri.parse('http://10.0.2.2:3001');
-    Response response = await get(url);
-    setState(() {
-      serverResponse = response.body;
-    })
+                                  setState(() {
+                                    isApiCallProcess = true;
+    });
+                                  APIService apiService = new APIService();
+                                  apiService.login(loginRequestModel).then(
+                                  (value) {
+
+    }
+    }
+  ],
+  ),
+  ),
+  ),
+  ),
+  ),
+  )
+  )
+  );
+}
+
+  bool validateAndSave() {
+    final form = _loginKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
+}
 }
