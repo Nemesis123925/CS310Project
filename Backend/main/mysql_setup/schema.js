@@ -7,8 +7,17 @@ const Schema = {
     Sellers: {
         id: {type: 'increments', nullable: false, primary: true},
         username: {type: 'string', maxlength: 254, nullable: false, unique: true},
-        password: {type: 'string', maxlength: 254, nullable: false}
+        password: {type: 'string', maxlength: 254, nullable: false},
+        latitude: {type: 'decimal', nullable: false},
+        longitude: {type: 'decimal', nullable: false}
     },
+    Items: {
+        id: {type: 'increments', nullable: false, primary: true},
+        seller_id: {type: 'integer', nullable: false},
+        name: {type: 'string', maxlength: 254, nullable: false},
+        price: {type: 'string', maxlength: 254, nullable: false},
+        caffeine: {type: 'string', maxlength: 254, nullable: false}
+    }
 /*,
 posts: {
     id: {type: 'increments', nullable: false, primary: true},
