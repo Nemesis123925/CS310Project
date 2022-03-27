@@ -70,13 +70,14 @@ io.on("connection", function (socket){
                 socketId: socket.id,
                 status: 0
             }
+            DrinkerService.drinkerGetRecommendation1(socket, info.id)
         }else {
             onlineSellers[info.id] = {
                 socketId: socket.id,
                 status: 0
             }
+            socket.emit("success", "online")
         }
-        socket.emit("success", "online")
         console.log(socket.id)
     })
 

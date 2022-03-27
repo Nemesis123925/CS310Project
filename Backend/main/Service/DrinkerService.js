@@ -1,4 +1,5 @@
 const DrinkerMapper = require("../Mapper/DrinkerMapper");
+const FrequencyMapper = require("../Mapper/FrequencyMapper")
 const _ = require("underscore")
 const app = require("../app")
 
@@ -102,5 +103,18 @@ exports.drinkerGetHistoryOrder = function (payload, results){
             item.items = JSON.parse(item.items)
         })
         res.send(results)
+    }
+}
+
+exports.drinkerGetRecommendation1 = function (socket_id, drinker_id){
+    FrequencyMapper.SelectFrequencyMaxTotalByDrinkerId(socket_id, drinker_id, drinkerGetRecommendation2)
+}
+
+function drinkerGetRecommendation2 (socket, results){
+    results = JSON.parse(JSON.stringify(results)) // just parsing
+    if(!results.length){
+        socket.emit("success", "no record")
+    }else{
+        socket.emit("success", JSON.parse(results[0].item))
     }
 }
