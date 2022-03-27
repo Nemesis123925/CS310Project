@@ -205,6 +205,13 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_progress_hud">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_progress_hud-2.0.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_riverpod">
           <value>
             <list>
@@ -593,6 +600,7 @@
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/fixnum-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/lib" />
+      <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_progress_hud-2.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.3/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/freezed-1.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../flutter_2.10.3/flutter/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-1.1.0/lib" />
