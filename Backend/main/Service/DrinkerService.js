@@ -26,7 +26,7 @@ exports.drinkerSignUp = function(payload, results){
 exports.drinkerLogin = function (payload, results){
     let req = payload[0];
     let res = payload[1];
-    let username = payload[2];
+    //let username = payload[2];
     let password = payload[3];
     results = JSON.parse(JSON.stringify(results)) // just parsing
     if(!results.length){
@@ -81,8 +81,8 @@ exports.drinkerCheckCaffeine = function (socket, orders){
     _.each(orders.orders, function(item){
         caffeine += item.caffeine
     })
-    DrinkerMapper.SelectCaffeineById([socket, caffeine], orders.drinkerID, drinkerWarnCaffeine)
-    DrinkerMapper.UpdateCaffeineById(null, orders.drinkerID, caffeine, null)
+    DrinkerMapper.SelectCaffeineById([socket, caffeine], orders.drinker_id, drinkerWarnCaffeine)
+    DrinkerMapper.UpdateCaffeineById(null, orders.drinker_id, caffeine, null)
 }
 
 function drinkerWarnCaffeine(payload, results){

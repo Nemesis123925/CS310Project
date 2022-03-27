@@ -6,8 +6,8 @@ const sessions = require('express-session');
 const DrinkerService = require('../main/Service/DrinkerService')
 const SellerService = require('../main/Service/SellerService')
 const OrderService = require('../main/Service/OrderService')
-const _ = require("underscore")
-const Item = require("../main/Entity/Item")
+//const _ = require("underscore")
+//const Item = require("../main/Entity/Item")
 
 //const seshTime = 1000 * 60 * 60 * 3; // 3 Hour Session Time
 
@@ -82,19 +82,32 @@ io.on("connection", function (socket){
     })
 
     socket.on("order", orders => {
-        if(!DrinkerService.validate(orders.drinkerID)){
+        if(!DrinkerService.validate(orders.drinker_id)){
             socket.emit("error", "drinker not validated")
         }else{
-            orders.drinker_socket_id = onlineDrinkers[orders.drinkerID].socketId
-            OrderService.recordOrder(orders);
+            orders.drinker_socket_id = onlineDrinkers[orders.drinker_id].socketId
+            OrderService.recordOrder1(socket, orders);
             DrinkerService.drinkerCheckCaffeine(socket, orders)
-            socket.to(orders.seller_socket_id).emit("receive_order", orders)
+        }
+    })
+
+    socket.on("update_delivery", trip => {
+        if(!SellerService.validate(trip.seller_id)){
+            socket.emit("error", "seller not validated")
+        }else{
+            socket.to(trip.drinker_socket_id).emit("update_delivery", trip)
+        }
+    })
+
+    socket.on("finish_delivery", trip => {
+        if(!SellerService.validate(trip.seller_id)){
+            socket.emit("error", "seller not validated")
+        }else{
+            socket.to(trip.drinker_socket_id).emit("finish_delivery", trip)
+            OrderService.finishOrder(trip)
         }
     })
 })
-
-console.log(JSON.stringify(new Item("juice", 100, 10)))
-
 
 // start listening
 app.listen(3001,() => {

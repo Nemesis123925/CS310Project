@@ -23,7 +23,8 @@ const Schema = {
         id: {type: 'increments', nullable: false, primary: true},
         drinker_id: {type: 'integer', nullable: false},
         seller_id: {type: 'integer', nullable: false},
-        time: {type: 'datetime', nullable: false},
+        time_order: {type: 'datetime', nullable: false},
+        time_finish: {type: 'datetime', nullable: false},
         items: {type: 'string', maxlength: 254, nullable: false}
     },
     Frequency:{
