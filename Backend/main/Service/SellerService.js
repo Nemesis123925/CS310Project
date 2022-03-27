@@ -8,12 +8,14 @@ let validUsers = new Set();
 function validate(userId){
     return validUsers.has(userId);
 }
+exports.validate = validate;
 
 exports.sellerSignup = function(payload, results){
     let res = payload[0]
     let username = payload[1];
     let password = payload[2];
     let location = payload[3];
+    location = JSON.parse(location)
     results = JSON.parse(JSON.stringify(results)) // just parsing
     if(results.length){ // means this username already exists
         res.status(400).end();
@@ -48,5 +50,18 @@ exports.updateMenu = function (userId, res, items){
 
     }else{
         res.status(400).end();
+    }
+}
+
+exports.sellerGetHistoryOrder = function (payload, results){
+    let res = payload
+    results = JSON.parse(JSON.stringify(results)) // just parsing
+    if(!results.length){
+        res.status(400).end()
+    }else{
+        _.each(results, function (item){
+            item.items = JSON.parse(item.items)
+        })
+        res.send(results)
     }
 }

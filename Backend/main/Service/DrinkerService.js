@@ -8,6 +8,8 @@ function validate(userId){
     return validUsers.has(userId);
 }
 
+exports.validate = validate;
+
 exports.drinkerSignUp = function(payload, results){
     let res = payload[0]
     let username = payload[1];
@@ -71,4 +73,34 @@ exports.drinkerGetMenu = function (payload, results){
     }
     res.status(400).end();
 
+}
+
+exports.drinkerCheckCaffeine = function (socket, orders){
+    let caffeine = 0;
+    _.each(orders.orders, function(item){
+        caffeine += item.caffeine
+    })
+    DrinkerMapper.SelectCaffeineById([socket, caffeine], orders.drinkerID, drinkerWarnCaffeine)
+    DrinkerMapper.UpdateCaffeineById(null, orders.drinkerID, caffeine, null)
+}
+
+function drinkerWarnCaffeine(payload, results){
+    let socket = payload[0]
+    let caffeine = payload[1]
+    results = JSON.parse(JSON.stringify(results)) // just parsing
+    caffeine += results[0].caffeine
+    socket.emit("caffeine", caffeine)
+}
+
+exports.drinkerGetHistoryOrder = function (payload, results){
+    let res = payload
+    results = JSON.parse(JSON.stringify(results)) // just parsing
+    if(!results.length){
+        res.status(400).end()
+    }else{
+        _.each(results, function (item){
+            item.items = JSON.parse(item.items)
+        })
+        res.send(results)
+    }
 }

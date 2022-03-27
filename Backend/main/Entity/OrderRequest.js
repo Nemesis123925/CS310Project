@@ -1,9 +1,9 @@
 class OrderRequest{
-    constructor(drinkerID, sellerID, order_name, order_caffeine) {
+    constructor(drinkerID, seller_socket_id, orders) {
         this.drinkerID = drinkerID;
-        this.sellerID = sellerID;
-        this.order_name = order_name;
-        this.order_caffeine = order_caffeine;
+        this.drinker_socket_id = "";
+        this.seller_socket_id = seller_socket_id;
+        this.orders = orders
     }
 }
 

@@ -1,9 +1,9 @@
 let config = require("../mysql_setup/mysql_setup")
 let connection = config.connection
 
-exports.InsertIntoSeller = function(payload, seller, callback){
-    connection.query("INSERT INTO SELLERS (username, password, latitude, longitude) VALUES (?, ?, ?, ?)",
-        seller,
+exports.InsertIntoOrders = function(payload, order, callback){
+    connection.query("INSERT INTO orders (drinker_id, seller_id, time, items) VALUES (?, ?, ?, ?)",
+        order,
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -16,9 +16,9 @@ exports.InsertIntoSeller = function(payload, seller, callback){
         })
 }
 
-exports.SelectSellerByUsername = function(payload, username, callback){
-    connection.query("SELECT * FROM SELLERS WHERE username = ?",
-        username, // notice here, class_code is an array of professor_name, class_date, class_Codes
+exports.SelectOrdersBySellerId = function(payload, seller_id, callback){
+    connection.query("SELECT * FROM orders WHERE seller_id = ?",
+        seller_id,
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -31,16 +31,9 @@ exports.SelectSellerByUsername = function(payload, username, callback){
         })
 }
 
-exports.SelectNearBySeller = function(payload, latitude ,longitude, callback){
-    let set = []
-    let range = 100
-    set[0] = latitude - range;
-    set[1] = latitude + range;
-    set[2] = longitude - range;
-    set[3] = longitude + range;
-
-    connection.query("SELECT id, username, latitude, longitude FROM SELLERS WHERE latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
-        set, // notice here, class_code is an array of professor_name, class_date, class_Codes
+exports.SelectOrdersByDrinkerId = function(payload, drinker_id, callback){
+    connection.query("SELECT * FROM orders WHERE drinker_id = ?",
+        drinker_id,
         function (error, results) {
             //console.log(results);
             if (error) {

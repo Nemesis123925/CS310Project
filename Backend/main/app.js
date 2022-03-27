@@ -5,7 +5,9 @@ const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const DrinkerService = require('../main/Service/DrinkerService')
 const SellerService = require('../main/Service/SellerService')
+const OrderService = require('../main/Service/OrderService')
 const _ = require("underscore")
+const Item = require("../main/Entity/Item")
 
 //const seshTime = 1000 * 60 * 60 * 3; // 3 Hour Session Time
 
@@ -75,15 +77,22 @@ io.on("connection", function (socket){
             }
         }
         socket.emit("success", "online")
-        console.log(onlineSellers)
+        console.log(socket.id)
     })
 
-    socket.on("order", (orders) => {
-        if(DrinkerService.validate(orders[0].drinkerID)){
-
+    socket.on("order", orders => {
+        if(!DrinkerService.validate(orders.drinkerID)){
+            socket.emit("error", "drinker not validated")
+        }else{
+            orders.drinker_socket_id = onlineDrinkers[orders.drinkerID].socketId
+            OrderService.recordOrder(orders);
+            DrinkerService.drinkerCheckCaffeine(socket, orders)
+            socket.to(orders.seller_socket_id).emit("receive_order", orders)
         }
     })
 })
+
+console.log(JSON.stringify(new Item("juice", 100, 10)))
 
 
 // start listening

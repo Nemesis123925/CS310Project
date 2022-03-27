@@ -1,9 +1,9 @@
 let config = require("../mysql_setup/mysql_setup")
 let connection = config.connection
 
-exports.InsertIntoDrinker = function(payload, drinker, callback){
-    connection.query("INSERT INTO DRINKERS (username, password) VALUES (?, ?)",
-        drinker, // notice here, class_code is an array of professor_name, class_date, class_Codes
+exports.InsertIntoFrequency = function(payload, item, callback){
+    connection.query("INSERT INTO frequency (drinker_id, item, total) VALUES (?, ?, ?)",
+        item,// notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -16,9 +16,9 @@ exports.InsertIntoDrinker = function(payload, drinker, callback){
         })
 }
 
-exports.SelectDrinkerByUsername = function(payload, username, callback){
-    connection.query("SELECT * FROM Drinkers WHERE username = ?",
-        username, // notice here, class_code is an array of professor_name, class_date, class_Codes
+exports.SelectFrequency = function(payload, item, callback){
+    connection.query("SELECT id FROM frequency WHERE drinker_id = ? AND item = ?",
+        item,// notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -31,9 +31,9 @@ exports.SelectDrinkerByUsername = function(payload, username, callback){
         })
 }
 
-exports.SelectCaffeineById = function (payload, drinkerId, callback){
-    connection.query("SELECT caffeine FROM Drinkers WHERE id = ?",
-        drinkerId, // notice here, class_code is an array of professor_name, class_date, class_Codes
+exports.UpdateFrequency = function(payload, id, callback){
+    connection.query("UPDATE frequency SET total = total + 1 WHERE id = ?",
+        id,// notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -46,9 +46,9 @@ exports.SelectCaffeineById = function (payload, drinkerId, callback){
         })
 }
 
-exports.UpdateCaffeineById = function (payload, drinkerId, caffeine, callback){
-    connection.query("UPDATE Drinkers SET caffeine = caffeine + ? WHERE id = ?",
-        [caffeine, drinkerId],
+exports.SelectFrequencyMaxTotalByDrinkerId = function(payload, drinker_id, callback){
+    connection.query("SELECT item, MAX(total) FROM frequency WHERE drinker_id = ? GROUP BY item",
+        drinker_id,// notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
             if (error) {
@@ -60,3 +60,5 @@ exports.UpdateCaffeineById = function (payload, drinkerId, caffeine, callback){
             }
         })
 }
+
+

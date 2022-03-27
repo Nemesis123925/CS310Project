@@ -2,7 +2,8 @@ const Schema = {
     Drinkers: {
         id: {type: 'increments', nullable: false, primary: true},
         username: {type: 'string', maxlength: 254, nullable: false, unique: true},
-        password: {type: 'string', maxlength: 254, nullable: false}
+        password: {type: 'string', maxlength: 254, nullable: false},
+        caffeine: {type: 'integer', nullable: false}
     },
     Sellers: {
         id: {type: 'increments', nullable: false, primary: true},
@@ -17,6 +18,19 @@ const Schema = {
         name: {type: 'string', maxlength: 254, nullable: false},
         price: {type: 'string', maxlength: 254, nullable: false},
         caffeine: {type: 'string', maxlength: 254, nullable: false}
+    },
+    Orders: {
+        id: {type: 'increments', nullable: false, primary: true},
+        drinker_id: {type: 'integer', nullable: false},
+        seller_id: {type: 'integer', nullable: false},
+        time: {type: 'datetime', nullable: false},
+        items: {type: 'string', maxlength: 254, nullable: false}
+    },
+    Frequency:{
+        id: {type: 'increments', nullable: false, primary: true},
+        drinker_id: {type: 'integer', nullable: false},
+        item: {type: 'string', maxlength: 254, nullable: false},
+        total: {type: 'integer', nullable: false}
     }
 /*,
 posts: {
