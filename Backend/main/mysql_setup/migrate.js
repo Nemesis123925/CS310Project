@@ -7,7 +7,7 @@ let knex = require('knex')({
     connection: {
         host: 'localhost',
         user: 'root',
-        password: 'root',
+        password: 'Root@123',
         database: '310Project',
         charset: 'utf8',
         port:'3306'
