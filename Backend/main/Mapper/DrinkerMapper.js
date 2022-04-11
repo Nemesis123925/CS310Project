@@ -2,7 +2,7 @@ let config = require("../mysql_setup/mysql_setup")
 let connection = config.connection
 
 exports.InsertIntoDrinker = function(payload, drinker, callback){
-    connection.query("INSERT INTO DRINKERS (username, password) VALUES (?, ?)",
+    connection.query("INSERT INTO Drinkers (username, password, caffeine) VALUES (?, ?, 0)",
         drinker, // notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);

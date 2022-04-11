@@ -2,7 +2,7 @@ let config = require("../mysql_setup/mysql_setup")
 let connection = config.connection
 
 exports.InsertIntoSeller = function(payload, seller, callback){
-    connection.query("INSERT INTO SELLERS (username, password, latitude, longitude) VALUES (?, ?, ?, ?)",
+    connection.query("INSERT INTO Sellers (username, password, latitude, longitude) VALUES (?, ?, ?, ?)",
         seller,
         function (error, results) {
             //console.log(results);
@@ -17,7 +17,7 @@ exports.InsertIntoSeller = function(payload, seller, callback){
 }
 
 exports.SelectSellerByUsername = function(payload, username, callback){
-    connection.query("SELECT * FROM SELLERS WHERE username = ?",
+    connection.query("SELECT * FROM Sellers WHERE username = ?",
         username, // notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
@@ -39,7 +39,7 @@ exports.SelectNearBySeller = function(payload, latitude ,longitude, callback){
     set[2] = longitude - range;
     set[3] = longitude + range;
 
-    connection.query("SELECT id, username, latitude, longitude FROM SELLERS WHERE latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
+    connection.query("SELECT id, username, latitude, longitude FROM Sellers WHERE latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
         set, // notice here, class_code is an array of professor_name, class_date, class_Codes
         function (error, results) {
             //console.log(results);
